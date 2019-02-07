@@ -1,12 +1,12 @@
-build: webpack
+build: webpack package
 
 webpack:
 	npm update
 	node_modules/webpack/bin/webpack.js
-	mv dist/bundle.js ../inst/htmlwidgets/lib/
+	cp dist/bundle.js ../inst/htmlwidgets/lib/
 
 package:
-	(cd ..; R CMD install .)
+	(cd ..; R CMD INSTALL .)
 clean:
 	- rm -rf dist/
 	- rm -rf node_modules

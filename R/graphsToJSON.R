@@ -108,6 +108,8 @@ dataFramesToJSON <- function(tbl.edges, tbl.nodes=NULL)
 
    nodes.implied.by.edgeData <- sort(unique(c(tbl.edges$source, tbl.edges$target)))
 
+   print(nodes.implied.by.edgeData)
+
    if(is.null(tbl.nodes)){ # derive one from tbl.edges, for consistent processing below
       node.count <- length(nodes.implied.by.edgeData)
       tbl.nodes <- data.frame(id=nodes.implied.by.edgeData,
@@ -134,7 +136,7 @@ dataFramesToJSON <- function(tbl.edges, tbl.nodes=NULL)
       vec[i] <- '{"data": '; i <- i + 1
       nodeList <- list(id=node)
       if(ncol(tbl.nodes) > 1)
-         nodeList <- c(nodeList, as.list(tbl.nodes[n, -1, drop=FALSE]))
+         nodeList <- c(nodeList, as.list(tbl.nodes[node, -1, drop=FALSE]))
       nodeList.json <- toJSON(nodeList, auto_unbox=TRUE)
       vec[i] <- nodeList.json; i <- i + 1
       if(n != nodeCount){

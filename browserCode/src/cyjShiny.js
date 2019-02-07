@@ -13,6 +13,9 @@ cytoscape.use(dagre);
 let coseBilkent = require('cytoscape-cose-bilkent');
 cytoscape.use(coseBilkent);
 
+let popper = require('cytoscape-popper');
+//cytoscape.use(popper);
+
 $ = require('jquery');
 require('jquery-ui-bundle');
 // apparently two version of jquery loaded: by shiny, and just above
@@ -91,6 +94,37 @@ HTMLWidgets.widget({
                             $("#cyjShiny").height());
 
 			cyj.nodes().map(function(node){node.data({degree: node.degree()})});
+			cyj.on('mouseover', 'node', function(event) {
+					let node = event.target;
+
+					let popper = node.popper({
+					  content: () => {
+						let div = document.createElement('div');
+						div.setAttribute('id', 'tooltipThing');
+						div.innerHTML = node.data().tooltip;
+						div.style.backgroundColor='white';
+						document.body.appendChild(div);
+						return div;
+						
+					  },
+					  popper: {}
+					});
+					
+					let close = () => {
+						let div = document.getElementById('tooltipThing');
+						if (div) {
+							document.body.removeChild(div);
+						}
+						popper.destroy();
+					};
+					
+					let update = () => {
+						popper.scheduleUpdate();
+					};
+					
+					node.on("mouseout", close);
+					node.on('position', update);
+				});
 			//setTimeout(function() {
 			//    cyj.fit(10)
 			//}, 600);
