@@ -94,6 +94,39 @@ HTMLWidgets.widget({
                             $("#cyjShiny").height());
 
 			cyj.nodes().map(function(node){node.data({degree: node.degree()})});
+			
+			cyj.on('mouseover', 'edge', function(event) {
+				let edge = event.target;
+
+				let popper = edge.popper({
+				  content: () => {
+					let div = document.createElement('div');
+					div.setAttribute('id', 'tooltipThing');
+					div.innerHTML = edge.data().interaction;
+					div.style.backgroundColor='yellow';
+					document.body.appendChild(div);
+					return div;
+					
+				  },
+				  popper: {}
+				});
+				
+				let close = () => {
+					let div = document.getElementById('tooltipThing');
+					if (div) {
+						document.body.removeChild(div);
+					}
+					popper.destroy();
+				};
+				
+				let update = () => {
+					popper.scheduleUpdate();
+				};
+				
+				edge.on("mouseout", close);
+				edge.on('position', update);
+			});
+			
 			cyj.on('mouseover', 'node', function(event) {
 					let node = event.target;
 
