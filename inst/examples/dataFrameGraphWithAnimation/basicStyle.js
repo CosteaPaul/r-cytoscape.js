@@ -1,25 +1,25 @@
 [ {"selector": "node", "css": {
       "shape": "ellipse",
-      "text-valign":"center",
+      "text-valign":"right",
       "text-halign":"center",
-      "content": "data(id)",
+      "label": "data(tooltip)",
       "background-color": "#FFFFFF",
       "border-color": "black","border-width":"1px",
-      "width":  "40px",
-      "height": "40px",
-      "font-size":"14px"}},
+      "width":  "20px",
+      "height": "20px",
+      "font-size":"12px"}},
 
    {"selector":"node:selected", "css": {
-       "text-valign":"center",
-       "text-halign":"center",
        "border-color": "black",
        "overlay-opacity": 0.2,
-       "overlay-color": "gray"
+       "background-color": "green"
        }},
 
    {"selector": "edge", "css": {
        "opacity": 0.5,
-       "curve-style": "bezier"
+       "curve-style": "bezier",
+	"source-arrow-shape": "triangle",
+	"target-arrow-shape": "triangle"
        }},
 
    {"selector":"edge:selected", "css": {
