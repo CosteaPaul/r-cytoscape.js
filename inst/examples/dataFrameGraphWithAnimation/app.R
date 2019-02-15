@@ -1,5 +1,100 @@
 library(cyjShiny)
 library(later)
+
+dataFramesToJSON = function (tbl.edges, tbl.nodes = NULL) 
+{
+    stopifnot(!grepl("factor", as.character(lapply(tbl.edges, 
+        class))))
+    stopifnot(all(c("source", "target") %in% colnames(tbl.edges)))
+    stopifnot("interaction" %in% colnames(tbl.edges))
+    stopifnot(all(rownames(tbl.nodes) == tbl.nodes$id))
+
+    hasPos = FALSE
+    #Did the user provide positions for points? Then, add those properly
+    if ("x" %in% colnames(tbl.nodes) && "y" %in% colnames(tbl.nodes)) {
+	tbl.positions = tbl.nodes[,c("x","y")]
+	tbl.positions$x = tbl.positions$x * 5 
+      #Remove them from the points def, otherwise they end up there too
+      tbl.nodes = tbl.nodes[,-match(c("x","y"),colnames(tbl.nodes))]
+      hasPos = TRUE
+    }
+
+    nodes.implied.by.edgeData <- sort(unique(c(tbl.edges$source, 
+        tbl.edges$target)))
+    if (is.null(tbl.nodes)) {
+        node.count <- length(nodes.implied.by.edgeData)
+        tbl.nodes <- data.frame(id = nodes.implied.by.edgeData, 
+            type = rep("unspecified", node.count), stringsAsFactors = FALSE)
+    }
+    nodes <- sort(unique(c(tbl.edges$source, tbl.edges$target, 
+        tbl.nodes$id)))
+    edgeCount <- nrow(tbl.edges)
+    vector.count <- 10 * (edgeCount + length(nodes))
+    vec <- vector(mode = "character", length = vector.count)
+    i <- 1
+    vec[i] <- "{\"elements\": {\"nodes\": ["
+    i <- i + 1
+    noa.names <- colnames(tbl.nodes)[-1]
+    eda.names <- colnames(tbl.edges)[-(1:2)]
+    nodeCount <- length(nodes)
+    for (n in 1:nodeCount) {
+        node <- nodes[n]
+        vec[i] <- "{\"data\": "
+        i <- i + 1
+        nodeList <- list(id = node)
+        if (ncol(tbl.nodes) > 1) 
+            nodeList <- c(nodeList, as.list(tbl.nodes[node, -1, 
+                drop = FALSE]))
+        nodeList.json <- toJSON(nodeList, auto_unbox = TRUE)
+        vec[i] <- nodeList.json
+	  i <- i + 1
+        if (hasPos) {
+	  	vec[i] <- ", \"position\": "
+	  	i <- i + 1
+	  	vec[i] <- toJSON(as.list(tbl.positions[node,, drop = FALSE]),auto_unbox=T)
+        	i <- i + 1
+	  }
+        if (n != nodeCount) {
+            vec[i] <- "},"
+            i <- i + 1
+        }
+    }
+    vec[i] <- "}]"
+    i <- i + 1
+    if (edgeCount > 0) {
+        vec[i] <- ", \"edges\": ["
+        i <- i + 1
+        for (e in seq_len(edgeCount)) {
+            vec[i] <- "{\"data\": "
+            i <- i + 1
+            sourceNode <- tbl.edges[e, "source"]
+            targetNode <- tbl.edges[e, "target"]
+            interaction <- tbl.edges[e, "interaction"]
+            edgeName <- sprintf("%s-(%s)-%s", sourceNode, interaction, 
+                targetNode)
+            edgeList <- list(id = edgeName, source = sourceNode, 
+                target = targetNode, interaction = interaction)
+            if (ncol(tbl.edges) > 3) 
+                edgeList <- c(edgeList, as.list(tbl.edges[e, 
+                  -(1:3), drop = FALSE]))
+            edgeList.json <- toJSON(edgeList, auto_unbox = TRUE)
+            vec[i] <- edgeList.json
+            i <- i + 1
+            if (e != edgeCount) {
+                vec[i] <- "},"
+                i <- i + 1
+            }
+        }
+        vec[i] <- "}]"
+        i <- i + 1
+    }
+    vec[i] <- "}"
+    i <- i + 1
+    vec[i] <- "}"
+    vec.trimmed <- vec[which(vec != "")]
+    paste0(vec.trimmed, collapse = " ")
+}
+
 #----------------------------------------------------------------------------------------------------
 styles <- c("",
             "generic style"="basicStyle.js",
@@ -7,16 +102,15 @@ styles <- c("",
 #----------------------------------------------------------------------------------------------------
 # create  data.frames for nodes, edges, and two simulated experimental variables, in 3 conditions
 #----------------------------------------------------------------------------------------------------
-tbl.nodes <- data.frame(id=c("A", "B", "C"),
-                        type=c("kinase", "TF", "glycoprotein"),
-                        lfc=c(1, 1, 1),
-                        count=c(0, 0, 0),
-                        stringsAsFactors=FALSE)
 
-tbl.edges <- data.frame(source=c("A", "B", "C"),
-                        target=c("B", "C", "A"),
-                        interaction=c("phosphorylates", "synthetic lethal", "unknown"),
-                        stringsAsFactors=FALSE)
+tbl.nodes <- read.table('map00010.nodes',header=T,sep='\t',stringsAsFactors=F)
+rownames(tbl.nodes) = tbl.nodes$id
+tbl.nodes$selectionDiv = '<table frame="box"><tr><td>Mass</td></tr><tr><td><img src="https://upload.wikimedia.org/wikipedia/commons/5/50/Green_Arrow_Up.svg" height="20" width="20"></td></tr></table>'
+
+
+tbl.edges<- read.table('map00010.edges',header=T,sep='\t',stringsAsFactors=F)
+tbl.edges$interaction = 'Unknown'
+tbl.edges$selectionDiv = '<table frame="box"><tr><td>Gene1</td><td>Gene2</td></tr><tr><td><img src="https://upload.wikimedia.org/wikipedia/commons/5/50/Green_Arrow_Up.svg" height="20" width="20"></td><td><img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Red_Arrow_Down.svg" height="20" width="20"></td></tr></table>'
 
 graph.json <- dataFramesToJSON(tbl.edges, tbl.nodes)
 
@@ -172,7 +266,7 @@ server = function(input, output, session)
 
     output$value <- renderPrint({ input$action })
     output$cyjShiny <- renderCyjShiny({
-       cyjShiny(graph=graph.json, layoutName="cola")
+       cyjShiny(graph=graph.json, layoutName="preset",style_file="basicStyle.js")
        })
 
 } # server

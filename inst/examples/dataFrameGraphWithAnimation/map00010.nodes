@@ -1,0 +1,32 @@
+id	tooltip	x	y
+C00033	Acetate	146	953
+C00031	D-Glucose	601	195
+C00103	D-Glucose 1-phosphate	483	143
+C00631	2-Phospho-D-glycerate	483	664
+C00267	alpha-D-Glucose	181	228
+C00221	beta-D-Glucose	181	301
+C00111	Glycerone phosphate	332	448
+C01172	beta-D-Glucose 6-phosphate	332	301
+C00668	alpha-D-Glucose 6-phosphate	483	230
+C05345	beta-D-Fructose 6-phosphate	483	303
+C00074	Phosphoenolpyruvate	483	736
+C00197	3-Phospho-D-glycerate	483	592
+C00236	3-Phospho-D-glyceroyl phosphate	483	520
+C00186	(S)-Lactate	627	863
+C15972	Enzyme N6-(lipoyl)lysine	314	906
+C00469	Ethanol	550	953
+C00022	Pyruvate	483	863
+C05125	2-(alpha-Hydroxyethyl)thiamine diphosphate	378	863
+C00024	Acetyl-CoA	146	863
+C00084	Acetaldehyde	378	953
+C16255	[Dihydrolipoyllysine-residue acetyltransferase] S-acetyldihydrolipoyllysine	265	863
+C15973	Enzyme N6-(dihydrolipoyl)lysine	212	906
+C05378	beta-D-Fructose 1,6-bisphosphate	483	373
+C06186	Arbutin	132	359
+C06187	Arbutin 6-phosphate	239	359
+C06188	Salicin 6-phosphate	239	385
+C01451	Salicin	132	385
+C00036	Oxaloacetate	146	736
+C01159	2,3-Bisphospho-D-glycerate	398	556
+C00118	D-Glyceraldehyde 3-phosphate	483	448
+C00068	Thiamin diphosphate	378	820
