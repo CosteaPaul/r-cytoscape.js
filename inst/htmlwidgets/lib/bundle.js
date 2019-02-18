@@ -19335,7 +19335,7 @@ var defaults$a = {
   // callback on layoutstop
   transform: function transform(node, position) {
     return position;
-  } // transform a given node position. Useful for changing flow direction in discrete layouts
+  } // transform a given node position. Useful for changing flow direction in discrete layouts 
 
 };
 
@@ -20961,7 +20961,7 @@ var defaults$d = {
   // callback on layoutstop
   transform: function transform(node, position) {
     return position;
-  } // transform a given node position. Useful for changing flow direction in discrete layouts
+  } // transform a given node position. Useful for changing flow direction in discrete layouts 
 
 };
 
@@ -21263,7 +21263,7 @@ var defaults$f = {
   // callback on layoutstop
   transform: function transform(node, position) {
     return position;
-  } // transform a given node position. Useful for changing flow direction in discrete layouts
+  } // transform a given node position. Useful for changing flow direction in discrete layouts 
 
 };
 
@@ -21330,7 +21330,7 @@ var defaults$g = {
   // callback on layoutstop
   transform: function transform(node, position) {
     return position;
-  } // transform a given node position. Useful for changing flow direction in discrete layouts
+  } // transform a given node position. Useful for changing flow direction in discrete layouts 
 
 };
 
@@ -52297,7 +52297,7 @@ LNode.prototype.updateBounds = function () {
     this.setWidth(childGraph.getRight() - childGraph.getLeft());
     this.setHeight(childGraph.getBottom() - childGraph.getTop());
 
-    // Update compound bounds considering its label properties
+    // Update compound bounds considering its label properties    
     if (LayoutConstants.NODE_DIMENSIONS_INCLUDE_LABELS) {
 
       var width = childGraph.getRight() - childGraph.getLeft();
@@ -52490,7 +52490,7 @@ Layout.prototype.runLayout = function () {
   }
 
   if (LayoutConstants.ANIMATE === 'during') {
-    // If this is a 'during' layout animation. Layout is not finished yet.
+    // If this is a 'during' layout animation. Layout is not finished yet. 
     // We need to perform these in index.js when layout is really finished.
     return false;
   }
@@ -53811,7 +53811,7 @@ FDLayout.prototype.calcRepulsionForce = function (nodeA, nodeB) {
       repulsionForceX = repulsionForce * distanceX / distance;
       repulsionForceY = repulsionForce * distanceY / distance;
 
-      // Apply forces on the two nodes
+      // Apply forces on the two nodes    
       nodeA.repulsionForceX -= repulsionForceX;
       nodeA.repulsionForceY -= repulsionForceY;
       nodeB.repulsionForceX += repulsionForceX;
@@ -53957,7 +53957,7 @@ FDLayout.prototype.calculateRepulsionForceOfANode = function (nodeA, processedNo
           for (var k = 0; k < grid[i][j].length; k++) {
             nodeB = grid[i][j][k];
 
-            // If both nodes are not members of the same graph,
+            // If both nodes are not members of the same graph, 
             // or both nodes are the same, skip.
             if (nodeA.getOwner() != nodeB.getOwner() || nodeA == nodeB) {
               continue;
@@ -53969,7 +53969,7 @@ FDLayout.prototype.calculateRepulsionForceOfANode = function (nodeA, processedNo
               var distanceX = Math.abs(nodeA.getCenterX() - nodeB.getCenterX()) - (nodeA.getWidth() / 2 + nodeB.getWidth() / 2);
               var distanceY = Math.abs(nodeA.getCenterY() - nodeB.getCenterY()) - (nodeA.getHeight() / 2 + nodeB.getHeight() / 2);
 
-              // if the distance between nodeA and nodeB
+              // if the distance between nodeA and nodeB 
               // is less then calculation range
               if (distanceX <= this.repulsionRange && distanceY <= this.repulsionRange) {
                 //then add nodeB to surrounding of nodeA
@@ -53995,7 +53995,7 @@ FDLayout.prototype.calcRepulsionRange = function () {
 // -----------------------------------------------------------------------------
 // Section: Tree Reduction methods
 // -----------------------------------------------------------------------------
-// Reduce trees
+// Reduce trees 
 FDLayout.prototype.reduceTrees = function () {
   var prunedNodesAll = [];
   var containsLeaf = true;
@@ -54029,7 +54029,7 @@ FDLayout.prototype.reduceTrees = function () {
   this.prunedNodesAll = prunedNodesAll;
 };
 
-// Grow tree one step
+// Grow tree one step 
 FDLayout.prototype.growTree = function (prunedNodesAll) {
   var lengthOfPrunedNodesInStep = prunedNodesAll.length;
   var prunedNodesInStep = prunedNodesAll[lengthOfPrunedNodesInStep - 1];
@@ -54631,7 +54631,7 @@ _CoSELayout.prototype.processChildrenList = function (parent, children, layout) 
     theNode.paddingRight = parseInt(theChild.css('padding'));
     theNode.paddingBottom = parseInt(theChild.css('padding'));
 
-    //Attach the label properties to compound if labels will be included in node dimensions
+    //Attach the label properties to compound if labels will be included in node dimensions  
     if (this.options.nodeDimensionsIncludeLabels) {
       if (theChild.isParent()) {
         var labelWidth = theChild.boundingBox({ includeLabels: true, includeNodes: false }).w;
@@ -54776,7 +54776,7 @@ CoSELayout.prototype.classicLayout = function () {
     }
     // The graph associated with this layout is not flat or a forest
     else {
-        // Reduce the trees when incremental mode is not enabled and graph is not a forest
+        // Reduce the trees when incremental mode is not enabled and graph is not a forest 
         this.reduceTrees();
         // Update nodes that gravity will be applied
         this.graphManager.resetAllNodesToApplyGravitation();
@@ -54819,7 +54819,7 @@ CoSELayout.prototype.tick = function () {
     this.coolingFactor = this.initialCoolingFactor * ((this.maxIterations - this.totalIterations) / this.maxIterations);
     this.animationPeriod = Math.ceil(this.initialAnimationPeriod * Math.sqrt(this.coolingFactor));
   }
-  // Operations while tree is growing again
+  // Operations while tree is growing again 
   if (this.isTreeGrowing) {
     if (this.growTreeIterations % 10 == 0) {
       if (this.prunedNodesAll.length > 0) {
@@ -55146,7 +55146,7 @@ CoSELayout.prototype.groupZeroDegreeMembers = function () {
   // array of [parent_id x oneDegreeNode_id]
   var tempMemberGroups = {}; // A temporary map of parent node and its zero degree members
   this.memberGroups = {}; // A map of dummy parent node and its zero degree members whose parents are not to be tiled
-  this.idToDummyNode = {}; // A map of id to dummy node
+  this.idToDummyNode = {}; // A map of id to dummy node 
 
   var zeroDegree = []; // List of zero degree nodes whose parents are not to be tiled
   var allNodes = this.graphManager.getAllNodes();
@@ -56431,7 +56431,7 @@ function popperRef(opts) {
 
 function createOptionsObject(target, opts) {
   var renderedDimensions = function renderedDimensions(el) {
-    return { w: el.renderedWidth(), h: el.renderedHeight() };
+    return el.isNode() ? { w: el.renderedWidth(), h: el.renderedHeight() } : { w: 3, h: 3 };
   };
   var renderedPosition = function renderedPosition(el) {
     return el.isNode() ? getRenderedCenter(el, renderedDimensions) : getRenderedMidpoint(el);
@@ -78367,9 +78367,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
   /*
   Insert item x in list a, and keep it sorted assuming a is sorted.
-
+  
   If x is already in a, insert it to the right of the rightmost x.
-
+  
   Optional args lo (default 0) and hi (default a.length) bound the slice
   of a to be searched.
    */
@@ -78436,7 +78436,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
   /*
   Pop and return the current smallest value, and add the new item.
-
+  
   This is more efficient than heappop() followed by heappush(), and can be
   more appropriate when using a fixed size heap. Note that the value
   returned may be larger than item! That constrains reasonable use of
@@ -87621,109 +87621,109 @@ HTMLWidgets.widget({
                             $("#cyjShiny").height());
 
 			cyj.nodes().map(function(node){node.data({degree: node.degree()})});
+			
+			//Do we have a div for selection?
+			  if (data.elements.edges[0].data.selectionDiv) {
+					cyj.on('select', 'edge', function(event) {
+						let edge = event.target;
+						let idd = edge.data().id;
+						let popper = edge.popper({
+						  content: () => {
+							let div = document.createElement('div');
+							div.setAttribute('id', 'tooltipSelect'+idd);
+							div.innerHTML = edge.data().selectionDiv;
+							document.body.appendChild(div);
+							return div;
 
-      //Do we have a div for selection?
-      if (data.elements.edges[0].data.selectionDiv) {
-  			cyj.on('select', 'edge', function(event) {
-  				let edge = event.target;
-          let idd = edge.data().id;
-  				let popper = edge.popper({
-  				  content: () => {
-  					let div = document.createElement('div');
-  					div.setAttribute('id', 'tooltipSelect'+idd);
-  					div.innerHTML = edge.data().selectionDiv;
-  					document.body.appendChild(div);
-  					return div;
+						  },
+						  popper: {}
+						});
 
-  				  },
-  				  popper: {}
-  				});
+						let closeEdge = () => {
+							let div = document.getElementById('tooltipSelect'+idd);
+							if (div) {
+								document.body.removeChild(div);
+							}
+							popper.destroy();
+						};
 
-  				let closeEdge = () => {
-  					let div = document.getElementById('tooltipSelect'+idd);
-  					if (div) {
-  						document.body.removeChild(div);
-  					}
-  					popper.destroy();
-  				};
+						let updateEdge = () => {
+							popper.scheduleUpdate();
+						};
 
-  				let updateEdge = () => {
-  					popper.scheduleUpdate();
-  				};
-
-  				edge.on("unselect", closeEdge);
-  				edge.on('position', updateEdge);
-          cyj.nodes().on('position',updateEdge);
-          cyj.on('pan zoom resize', updateEdge);
-  			});
-      }
-
-      //Do we have a div for selection?
-      if (data.elements.nodes[0].data.selectionDiv) {
-  			cyj.on('select', 'node', function(event) {
-  				let node = event.target;
-          let idd = node.data().id;
-  				let popper = node.popper({
-  				  content: () => {
-  					let div = document.createElement('div');
-  					div.setAttribute('id', 'tooltipSelect'+idd);
-  					div.innerHTML = node.data().selectionDiv;
-  					document.body.appendChild(div);
-  					return div;
-
-  				  },
-  				  popper: {}
-  				});
-
-  				let closeNode = () => {
-  					let div = document.getElementById('tooltipSelect'+idd);
-  					if (div) {
-  						document.body.removeChild(div);
-  					}
-  					popper.destroy();
-  				};
-
-  				let updateNode = () => {
-  					popper.scheduleUpdate();
-  				};
-
-  				node.on("unselect", closeNode);
-  				node.on('position', updateNode);
-          cyj.on('pan zoom resize', updateNode);
-  			});
-      }
-
-			cyj.on('mouseover', 'node', function(event) {
-					let node = event.target;
-
-					let popper = node.popper({
-					  content: () => {
-						let div = document.createElement('div');
-						div.setAttribute('id', 'tooltipNode');
-						div.innerHTML = node.data().tooltip;
-						div.style.backgroundColor='white';
-						document.body.appendChild(div);
-						return div;
-
-					  },
-					  popper: {}
+						edge.on("unselect", closeEdge);
+						edge.on('position', updateEdge);
+				  cyj.nodes().on('position',updateEdge);
+				  cyj.on('pan zoom resize', updateEdge);
 					});
+			  }
 
-					let close = () => {
-						let div = document.getElementById('tooltipNode');
-						if (div) {
-							document.body.removeChild(div);
-						}
-						popper.destroy();
-					};
+			  //Do we have a div for selection?
+			  if (data.elements.nodes[0].data.selectionDiv) {
+					cyj.on('select', 'node', function(event) {
+						let node = event.target;
+						let idd = node.data().id;
+						let popper = node.popper({
+						  content: () => {
+							let div = document.createElement('div');
+							div.setAttribute('id', 'tooltipSelect'+idd);
+							div.innerHTML = node.data().selectionDiv;
+							document.body.appendChild(div);
+							return div;
 
-					let update = () => {
-						popper.scheduleUpdate();
-					};
+						  },
+						  popper: {}
+						});
 
-					node.on("mouseout", close);
-					node.on('position', update);
-				});
+						let closeNode = () => {
+							let div = document.getElementById('tooltipSelect'+idd);
+							if (div) {
+								document.body.removeChild(div);
+							}
+							popper.destroy();
+						};
+
+						let updateNode = () => {
+							popper.scheduleUpdate();
+						};
+
+						node.on("unselect", closeNode);
+						node.on('position', updateNode);
+						cyj.on('pan zoom resize', updateNode);
+					});
+			  }
+
+				cyj.on('mouseover', 'node', function(event) {
+						let node = event.target;
+
+						let popper = node.popper({
+						  content: () => {
+							let div = document.createElement('div');
+							div.setAttribute('id', 'tooltipNode');
+							div.innerHTML = node.data().tooltip;
+							div.style.backgroundColor='white';
+							document.body.appendChild(div);
+							return div;
+
+						  },
+						  popper: {}
+						});
+
+						let close = () => {
+							let div = document.getElementById('tooltipNode');
+							if (div) {
+								document.body.removeChild(div);
+							}
+							popper.destroy();
+						};
+
+						let update = () => {
+							popper.scheduleUpdate();
+						};
+
+						node.on("mouseout", close);
+						node.on('position', update);
+					});
 			//setTimeout(function() {
 			//    cyj.fit(10)
 			//}, 600);

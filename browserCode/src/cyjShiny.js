@@ -95,69 +95,108 @@ HTMLWidgets.widget({
 
 			cyj.nodes().map(function(node){node.data({degree: node.degree()})});
 			
-			cyj.on('mouseover', 'edge', function(event) {
-				let edge = event.target;
+			//Do we have a div for selection?
+			  if (data.elements.edges[0].data.selectionDiv) {
+					cyj.on('select', 'edge', function(event) {
+						let edge = event.target;
+						let idd = edge.data().id;
+						let popper = edge.popper({
+						  content: () => {
+							let div = document.createElement('div');
+							div.setAttribute('id', 'tooltipSelect'+idd);
+							div.innerHTML = edge.data().selectionDiv;
+							document.body.appendChild(div);
+							return div;
 
-				let popper = edge.popper({
-				  content: () => {
-					let div = document.createElement('div');
-					div.setAttribute('id', 'tooltipThing');
-					div.innerHTML = edge.data().interaction;
-					div.style.backgroundColor='yellow';
-					document.body.appendChild(div);
-					return div;
-					
-				  },
-				  popper: {}
-				});
-				
-				let close = () => {
-					let div = document.getElementById('tooltipThing');
-					if (div) {
-						document.body.removeChild(div);
-					}
-					popper.destroy();
-				};
-				
-				let update = () => {
-					popper.scheduleUpdate();
-				};
-				
-				edge.on("mouseout", close);
-				edge.on('position', update);
-			});
-			
-			cyj.on('mouseover', 'node', function(event) {
-					let node = event.target;
+						  },
+						  popper: {}
+						});
 
-					let popper = node.popper({
-					  content: () => {
-						let div = document.createElement('div');
-						div.setAttribute('id', 'tooltipThing');
-						div.innerHTML = node.data().tooltip;
-						div.style.backgroundColor='white';
-						document.body.appendChild(div);
-						return div;
-						
-					  },
-					  popper: {}
+						let closeEdge = () => {
+							let div = document.getElementById('tooltipSelect'+idd);
+							if (div) {
+								document.body.removeChild(div);
+							}
+							popper.destroy();
+						};
+
+						let updateEdge = () => {
+							popper.scheduleUpdate();
+						};
+
+						edge.on("unselect", closeEdge);
+						edge.on('position', updateEdge);
+				  cyj.nodes().on('position',updateEdge);
+				  cyj.on('pan zoom resize', updateEdge);
 					});
-					
-					let close = () => {
-						let div = document.getElementById('tooltipThing');
-						if (div) {
-							document.body.removeChild(div);
-						}
-						popper.destroy();
-					};
-					
-					let update = () => {
-						popper.scheduleUpdate();
-					};
-					
-					node.on("mouseout", close);
-					node.on('position', update);
-				});
+			  }
+
+			  //Do we have a div for selection?
+			  if (data.elements.nodes[0].data.selectionDiv) {
+					cyj.on('select', 'node', function(event) {
+						let node = event.target;
+						let idd = node.data().id;
+						let popper = node.popper({
+						  content: () => {
+							let div = document.createElement('div');
+							div.setAttribute('id', 'tooltipSelect'+idd);
+							div.innerHTML = node.data().selectionDiv;
+							document.body.appendChild(div);
+							return div;
+
+						  },
+						  popper: {}
+						});
+
+						let closeNode = () => {
+							let div = document.getElementById('tooltipSelect'+idd);
+							if (div) {
+								document.body.removeChild(div);
+							}
+							popper.destroy();
+						};
+
+						let updateNode = () => {
+							popper.scheduleUpdate();
+						};
+
+						node.on("unselect", closeNode);
+						node.on('position', updateNode);
+						cyj.on('pan zoom resize', updateNode);
+					});
+			  }
+
+				cyj.on('mouseover', 'node', function(event) {
+						let node = event.target;
+
+						let popper = node.popper({
+						  content: () => {
+							let div = document.createElement('div');
+							div.setAttribute('id', 'tooltipNode');
+							div.innerHTML = node.data().tooltip;
+							div.style.backgroundColor='white';
+							document.body.appendChild(div);
+							return div;
+
+						  },
+						  popper: {}
+						});
+
+						let close = () => {
+							let div = document.getElementById('tooltipNode');
+							if (div) {
+								document.body.removeChild(div);
+							}
+							popper.destroy();
+						};
+
+						let update = () => {
+							popper.scheduleUpdate();
+						};
+
+						node.on("mouseout", close);
+						node.on('position', update);
+					});
 			//setTimeout(function() {
 			//    cyj.fit(10)
 			//}, 600);
